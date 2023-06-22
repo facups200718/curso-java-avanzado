@@ -61,4 +61,11 @@ public class Serie extends Film  {
 		return series;
 	}
 
+	@Override
+	public void view() {
+
+	}
+
+	/* Podemos agregar la keyword 'abstract' a la declaración del método view() si no queremos implementarlo.
+    Eso sí, nuestra clase Serie deberá ser abstracta también! */
 }
