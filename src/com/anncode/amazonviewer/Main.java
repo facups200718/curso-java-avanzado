@@ -5,21 +5,33 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
-import com.anncode.amazonviewer.model.Book;
-import com.anncode.amazonviewer.model.Chapter;
-import com.anncode.amazonviewer.model.Magazine;
-import com.anncode.amazonviewer.model.Movie;
-import com.anncode.amazonviewer.model.Serie;
+import com.anncode.amazonviewer.model.*;
 import com.anncode.makereport.Report;
 import com.anncode.util.AmazonUtil;
 
+/**
+ *
+ * <h1>AmazonViewer</h1>
+ * AmazonViewer es un programa que te permite visualizar Movies, Series con sus respectivos Chapters,
+ * Books y Magazines. Te permite generar reportes generales y con fecha del dïa.
+ * <p>
+ * Existen algunas reglas como que todos los elementos pueden ser visualizados o leïdos, a excepción
+ * de las Magazines que sölo pueden ser vistas a modo de exposiciön sin ser leídas.
+ *
+ * @author Facu
+ * @version 1.1
+ * @since 2023
+ *
+ * */
 public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
-		showMenu();
-
+        Film film = new Movie("", "", "", 1, (short) 1);
+        film.view();
+        Film film2 = new Chapter("", "", "", 1, (short) 1, 1, new Serie("", "", "", 1, 1));
+		film2.view();
+        showMenu();
 	}
 
 	public static void showMenu() {
@@ -105,18 +117,7 @@ public class Main {
 			}
 			if (response > 0) {
 				Movie movieSelected = movies.get(response-1);
-				movieSelected.setViewed(true);
-				Date dateI = movieSelected.startToSee(new Date());
-
-				for (int i = 0; i < 100000; i++) {
-					System.out.println("..........");
-				}
-
-				//Termine de verla
-				movieSelected.stopToSee(dateI, new Date());
-				System.out.println();
-				System.out.println("Viste: " + movieSelected);
-				System.out.println("Por: " + movieSelected.getTimeViewed() + " milisegundos");
+				movieSelected.view();
 			}
 
 
@@ -181,18 +182,7 @@ public class Main {
 
 			if(response > 0) {
 				Chapter chapterSelected = chaptersOfSerieSelected.get(response-1);
-				chapterSelected.setViewed(true);
-				Date dateI = chapterSelected.startToSee(new Date());
-
-				for (int i = 0; i < 100000; i++) {
-					System.out.println("..........");
-				}
-
-				//Termine de verla
-				chapterSelected.stopToSee(dateI, new Date());
-				System.out.println();
-				System.out.println("Viste: " + chapterSelected);
-				System.out.println("Por: " + chapterSelected.getTimeViewed() + " milisegundos");
+				chapterSelected.view();
 			}
 		}while(exit !=0);
 	}
@@ -223,18 +213,6 @@ public class Main {
 
 			if(response > 0) {
 				Book bookSelected = books.get(response-1);
-				bookSelected.setReaded(true);
-				Date dateI = bookSelected.startToSee(new Date());
-
-				for (int i = 0; i < 100000; i++) {
-					System.out.println("..........");
-				}
-
-				//Termine de verla
-				bookSelected.stopToSee(dateI, new Date());
-				System.out.println();
-				System.out.println("Leíste: " + bookSelected);
-				System.out.println("Por: " + bookSelected.getTimeReaded() + " milisegundos");
 			}
 
 		}while(exit !=0);

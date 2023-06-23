@@ -63,7 +63,7 @@ public class Serie extends Film  {
 
 	@Override
 	public void view() {
-
+		this.setViewed(Boolean.TRUE);
 	}
 
 	/* Podemos agregar la keyword 'abstract' a la declaración del método view() si no queremos implementarlo.

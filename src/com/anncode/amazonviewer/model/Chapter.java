@@ -1,5 +1,6 @@
 package com.anncode.amazonviewer.model;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Chapter extends Movie {
@@ -62,6 +63,13 @@ public class Chapter extends Movie {
 		return chapters;
 	}
 
+	@Override
+	public void view() {
+		super.view();
+		ArrayList<Chapter> chapters = this.getSerie().getChapters();
+		int chaptersViewedCounter = (int) chapters.stream().filter(Film::getIsViewed).count();
+		this.getSerie().setViewed(chapters.size() == chaptersViewedCounter);
+	}
 }
 
 
