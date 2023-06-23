@@ -1,6 +1,7 @@
 package com.anncode.amazonviewer;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
@@ -21,14 +22,15 @@ import com.anncode.util.AmazonUtil;
  * @author Facu
  * @version 1.1
  * @since 2023
- *
+ * @see Film
  * */
 public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-        Film film = new Movie("", "", "", 1, (short) 1);
-        film.view();
+        Movie movie = new Movie("", "", "", 1, (short) 1);
+		movie.view();
+		movie.startToSee(new Date());
         Film film2 = new Chapter("", "", "", 1, (short) 1, 1, new Serie("", "", "", 1, 1));
 		film2.view();
         showMenu();

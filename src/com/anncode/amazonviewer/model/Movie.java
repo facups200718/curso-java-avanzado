@@ -44,8 +44,8 @@ public class Movie extends Film implements IVisualizable {
 
 	/**
 	 * {@inheritDoc}
-	 * */
-	@Override
+	 *
+	 * @param dateI Fecha de inicio*/
 	public Date startToSee(Date dateI) {
 		// TODO Auto-generated method stub
 		return dateI;
@@ -53,6 +53,9 @@ public class Movie extends Film implements IVisualizable {
 
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @param dateI Fecha de inicio
+	 * @param dateF Fecha de finalización
 	 * */
 	@Override
 	public void stopToSee(Date dateI, Date dateF) {
