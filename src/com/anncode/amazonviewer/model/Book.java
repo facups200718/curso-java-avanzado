@@ -113,7 +113,7 @@ public class Book extends Publication implements IVisualizable {
 			authors[i] = "author "+i;
 		}
 
-		ArrayList<Page> pages = new ArrayList();
+		ArrayList <Page> pages = new ArrayList();
 		int page = 0;
 		for (int i = 0; i < 3; i++) {
 			page = i + 1;
