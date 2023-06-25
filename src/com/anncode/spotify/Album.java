@@ -1,17 +1,27 @@
 package com.anncode.spotify;
 
+import java.util.ArrayList;
+
 public class Album {
     private String name;
     private String artistName;
     private Integer year;
     private String genre;
-    private Album.Song[] songs;
+    private ArrayList<Song> songs;
 
-    public Album(String name, String artistName, Integer year, String genre, Album.Song[] songs) {
+    public Album(String name, String artistName, Integer year, String genre, ArrayList<Song> songs) {
         this.name = name;
         this.artistName = artistName;
         this.year = year;
         this.genre = genre;
+        this.songs = songs;
+    }
+
+    public ArrayList<Song> getSongs() {
+        return songs;
+    }
+
+    public void setSongs(ArrayList<Song> songs) {
         this.songs = songs;
     }
 
@@ -45,14 +55,6 @@ public class Album {
 
     public void setGenre(String genre) {
         this.genre = genre;
-    }
-
-    public Song[] getSongs() {
-        return songs;
-    }
-
-    public void setSongs(Song[] songs) {
-        this.songs = songs;
     }
 
     public static class Song {

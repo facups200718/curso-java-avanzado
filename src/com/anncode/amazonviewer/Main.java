@@ -199,7 +199,7 @@ public class Main {
 			System.out.println();
 
 			for (int i = 0; i < books.size(); i++) { //1. Book 1
-				System.out.println(i+1 + ". " + books.get(i).getTitle() + " Leído: " + books.get(i).isReaded());
+				System.out.println(i+1 + ". " + books.get(i).getTitle() + " Leído: " + books.get(i).isRead());
 			}
 
 			System.out.println("0. Regresar al Menu");
@@ -274,7 +274,7 @@ public class Main {
 
 
 		for (Book book : books) {
-			if (book.getIsReaded()) {
+			if (book.getIsRead()) {
 				contentReport += book.toString() + "\n";
 
 			}
@@ -318,7 +318,7 @@ public class Main {
 		}
 
 		for (Book book : books) {
-			if (book.getIsReaded()) {
+			if (book.getIsRead()) {
 				contentReport += book.toString() + "\n";
 
 			}
