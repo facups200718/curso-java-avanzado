@@ -2,8 +2,10 @@ package com.anncode.amazonviewer.model;
 
 import com.anncode.amazonviewer.dao.MovieDAO;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * Hereda de {@link Film}
@@ -13,6 +15,7 @@ public class Movie extends Film implements IVisualizable, MovieDAO {
 
 	private int id;
 	private int timeViewed;
+	private Timestamp dateTimeViewed;
 
 	public Movie() {
 
@@ -39,6 +42,12 @@ public class Movie extends Film implements IVisualizable, MovieDAO {
 		this.timeViewed = timeViewed;
 	}
 
+	public Timestamp getDateTimeViewed() { return dateTimeViewed; }
+
+	public void setDateTimeViewed(Timestamp dateTimeViewed) {
+		this.dateTimeViewed = dateTimeViewed;
+	}
+
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
@@ -47,7 +56,10 @@ public class Movie extends Film implements IVisualizable, MovieDAO {
 				"\n Genero: " + getGenre() +
 				"\n Year: " + getYear() +
 				"\n Creator: " + getCreator() +
-				"\n Duration: " + getDuration();
+				"\n Duration: " + getDuration() +
+				(Objects.nonNull(getDateTimeViewed())
+						? "\n Viewed: " + getDateTimeViewed()
+						: "");
 	}
 
 	/**
@@ -91,10 +103,6 @@ public class Movie extends Film implements IVisualizable, MovieDAO {
 		this.setMovieViewedStatus(this);
 		this.setViewed(true);
 		Date dateI = this.startToSee(new Date());
-
-		for (int i = 0; i < 100000; i++) {
-			System.out.println("..........");
-		}
 
 		//Termine de verla
 		this.stopToSee(dateI, new Date());

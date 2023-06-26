@@ -1,0 +1,19 @@
+Date: lun., 5 jun. 2023
+
+
+
+ :: MOVIE ::
+ Title: Coco
+ Genero: Animación
+ Year: 2017
+ Creator: Pixart
+ Duration: 120
+ Viewed: 2023-06-26 16:40:40.0
+
+ :: MOVIE ::
+ Title: Titanic
+ Genero: Drama
+ Year: 1997
+ Creator: James Cameron
+ Duration: 195
+ Viewed: 2023-06-26 17:37:37.0

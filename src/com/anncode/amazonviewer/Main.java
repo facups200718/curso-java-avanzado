@@ -1,23 +1,33 @@
 package com.anncode.amazonviewer;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 import java.util.Scanner;
 
-import com.anncode.amazonviewer.model.*;
+import com.anncode.amazonviewer.model.Book;
+import com.anncode.amazonviewer.model.Chapter;
+import com.anncode.amazonviewer.model.Film;
+import com.anncode.amazonviewer.model.Magazine;
+import com.anncode.amazonviewer.model.Movie;
+import com.anncode.amazonviewer.model.Serie;
 import com.anncode.makereport.Report;
 import com.anncode.util.AmazonUtil;
 
+
+
 /**
- *
  * <h1>AmazonViewer</h1>
- * AmazonViewer es un programa que te permite visualizar Movies, Series con sus respectivos Chapters,
- * Books y Magazines. Te permite generar reportes generales y con fecha del dïa.
+ * AmazonViewer es un programa que permite visualizar Movies, Series con sus respectivos Chapters,
+ * Books y Magazines. Te permite generar reportes generales y con fecha del día.
  * <p>
- * Existen algunas reglas como que todos los elementos pueden ser visualizados o leïdos, a excepción
- * de las Magazines que sölo pueden ser vistas a modo de exposiciön sin ser leídas.
+ * Existen algunas reglas como que todos los elementos pueden ser visualizadors o leídos a excepción
+ * de las Magazines, estás solo pueden ser vistas a modo de exposición sin ser leídas.
  *
  * @author Facu
  * @version 1.1
@@ -28,12 +38,8 @@ public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-        Movie movie = new Movie("", "", "", 1, (short) 1);
-		movie.view();
-		movie.startToSee(new Date());
-        Film film2 = new Chapter("", "", "", 1, (short) 1, 1, new Serie("", "", "", 1, 1));
-		film2.view();
-        showMenu();
+		showMenu();
+
 	}
 
 	public static void showMenu() {
@@ -93,7 +99,7 @@ public class Main {
 		}while(exit != 0);
 	}
 
-	static ArrayList<Movie> movies = new ArrayList<>();
+	static ArrayList<Movie> movies = Movie.makeMoviesList();
 	public static void showMovies() {
 		movies = Movie.makeMoviesList();
 		int exit = 1;
@@ -216,6 +222,7 @@ public class Main {
 
 			if(response > 0) {
 				Book bookSelected = books.get(response-1);
+				bookSelected.view();
 			}
 
 		}while(exit !=0);
@@ -256,6 +263,7 @@ public class Main {
 		report.setTitle(":: VISTOS ::");
 		String contentReport = "";
 
+		movies = Movie.makeMoviesList();
 		for (Movie movie : movies) {
 			if (movie.getIsViewed()) {
 				contentReport += movie.toString() + "\n";
@@ -301,10 +309,17 @@ public class Main {
 		dateString = dfNameDays.format(date);
 		String contentReport = "Date: " + dateString + "\n\n\n";
 
+		movies = Movie.makeMoviesList();
 		for (Movie movie : movies) {
-			if (movie.getIsViewed()) {
+			LocalDate now = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			LocalDateTime movieViewedDate = Objects.nonNull(movie.getDateTimeViewed())
+					? movie.getDateTimeViewed().toLocalDateTime()
+					: null;
+			if (Objects.nonNull(movieViewedDate)
+					&& movie.getIsViewed() && now.getYear() == movieViewedDate.getYear()
+			        && now.getMonth() == movieViewedDate.getMonth()
+			        && now.getDayOfMonth() == movieViewedDate.getDayOfMonth()) {
 				contentReport += movie.toString() + "\n";
-
 			}
 		}
 

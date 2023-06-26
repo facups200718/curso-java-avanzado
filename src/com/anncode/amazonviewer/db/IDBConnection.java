@@ -8,9 +8,9 @@ public interface IDBConnection {
     default Connection connectToDB() {
         Connection connection = null;
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager
-                    .getConnection(Database.URL + Database.DB, Database.USER, Database.PASSWORD);
+                    .getConnection(Database.URL + Database.DB + "?useSSL=false", Database.USER, Database.PASSWORD);
             if (Objects.nonNull(connection)) {
                 System.out.println("Se estableció la conexión :)");
             }
