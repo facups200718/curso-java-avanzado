@@ -1,23 +1,28 @@
 package com.anncode.amazonviewer.dao;
-
-import com.anncode.amazonviewer.db.Database;
 import com.anncode.amazonviewer.db.IDBConnection;
 import com.anncode.amazonviewer.model.Movie;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
+
 import static com.anncode.amazonviewer.db.Database.*;
 
 /**
  * Es el equivalente a las clases Repository de la actualidad
  */
 public interface MovieDAO extends IDBConnection {
-    default Movie setMovieViewedStatus(Movie movie) {
-        movie.setViewed(Boolean.TRUE);
-        return movie;
+    default void setMovieViewedStatus(Movie movie) {
+        try (Connection connection = connectToDB()) {
+            Statement statement = connection.createStatement();
+            String query = "INSERT INTO " + VIEWED_TABLE + "("
+                    + VIEWED_MATERIAL_ID + ", " + VIEWED_ELEMENT_ID + ", " + VIEWED_USER_ID + ") "
+                    + "VALUES(" + MATERIAL_IDS[0] + ", " + movie.getId() + ", " + USER_ID + ")";
+            if (statement.executeUpdate(query) > 0) {
+                System.out.println("La película ha sido seteada como vista");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     default ArrayList<Movie> read() {
