@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 import com.anncode.amazonviewer.model.Book;
 import com.anncode.amazonviewer.model.Chapter;
@@ -109,9 +112,17 @@ public class Main {
 			System.out.println(":: MOVIES ::");
 			System.out.println();
 
-			for (int i = 0; i < movies.size(); i++) { //1. Movie 1
+			// Como no podemos mutar el valor de una variable en los lambdas, tenemos que usar este integer.
+			// Es "atomico" porque mantiene la "unidad/integridad" cuando se lo usa en situaciones donde hay
+			// recursividad o multithreading, generalmente como un counter.
+			// Hay que recordar que en la prog. funcional con lambdas SI hay recursividad, pero NO hay iteraciones!
+			var atomicInteger = new AtomicInteger();
+			movies.forEach(movie
+					-> System.out.println(atomicInteger.getAndIncrement() + ". " + movie.getTitle() + " Visto: " + movie.isViewed()));
+
+			/*for (int i = 0; i < movies.size(); i++) { //1. Movie 1
 				System.out.println(i+1 + ". " + movies.get(i).getTitle() + " Visto: " + movies.get(i).isViewed());
-			}
+			}*/
 
 			System.out.println("0. Regresar al Menu");
 			System.out.println();
@@ -261,35 +272,62 @@ public class Main {
 		report.setNameFile("reporte");
 		report.setExtension("txt");
 		report.setTitle(":: VISTOS ::");
-		String contentReport = "";
+		// Ver comentario de abajo
+		//String contentReport = "";
+		//Tengo que crear un StringBuffer, ya que tiene funciones que me da esa mutabilidad de un String que la prog. funcional no me provee
+		StringBuffer contentReport = new StringBuffer();
 
 		movies = Movie.makeMoviesList();
-		for (Movie movie : movies) {
+		// stream() basicamente es una funcion que habilita a una Collection a operar con lambdas
+		movies.stream().filter(movie -> movie.getIsViewed()).forEach(movie -> contentReport.append(movie.toString() + "\n"));
+
+		//for (Movie movie : movies) {
+			// Si contentReport fuese un String, esto lo tenemos que dejar asi porque en prog. funcional no hay asignaciones,
+		    // sino mas bien inmutabilidad xD
+			//contentReport += movie.toString() + "\n";
+		//}
+		/*for (Movie movie : movies) {
 			if (movie.getIsViewed()) {
 				contentReport += movie.toString() + "\n";
 
 			}
-		}
+		}*/
 
-		for (Serie serie : series) {
+		// Tengo que indicar el tipo del objeto que manipulo en el lambda entre los operadores diamante, sino,
+		// como hace el objeto para encontrar el metodo getIsViewed?
+		Predicate<Serie> predicate = serie -> serie.getIsViewed();
+		// Lo mismo para el consumer.
+		// El consumer es como el predicate, ya que recibe un valor por parametros. La diferencia es que no devuelve nada.
+		// Solo "consume", como si fuera una persona egoista.
+		Consumer<Serie> consumer = serie ->
+			serie.getChapters().stream()
+					.filter(chapter -> chapter.getIsViewed())
+					.forEach(chapter -> contentReport.append(chapter.toString() + "\n"));
+
+		series.stream().filter(predicate).forEach(consumer);
+
+
+		/*for (Serie serie : series) {
 			ArrayList<Chapter> chapters = serie.getChapters();
 			for (Chapter chapter : chapters) {
 				if (chapter.getIsViewed()) {
-					contentReport += chapter.toString() + "\n";
+					contentReport.append(chapter.toString() + "\n");
 
 				}
 			}
-		}
+		} */
 
-
-		for (Book book : books) {
+		Predicate<Book> bookPredicate = book -> book.getIsRead();
+		Consumer<Book> bookConsumer = book -> contentReport.append(book.toString() + "\n");
+		books.stream().filter(bookPredicate).forEach(bookConsumer);
+		
+		/*for (Book book : books) {
 			if (book.getIsRead()) {
-				contentReport += book.toString() + "\n";
-
+				contentReport.append(book.toString() + "\n");
 			}
-		}
+		}*/
 
-		report.setContent(contentReport);
+		report.setContent(contentReport.toString());
 		report.makeReport();
 		System.out.println("Reporte Generado");
 		System.out.println();
